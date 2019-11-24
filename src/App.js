@@ -1,10 +1,13 @@
 import React from 'react';
 import Dashboard from './components/dashboard'
+import Store from './contexts/Store'
 
 function App() {
   return (
     <div className="App">
-      <Dashboard></Dashboard>
+      <Store>
+      <Dashboard/>
+      </Store>
     </div>
   );
 }

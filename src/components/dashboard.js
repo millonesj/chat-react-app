@@ -8,6 +8,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
+import { changeTextValue, CTX  } from '../contexts/Store';
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -39,6 +41,12 @@ export default function Dashboard() {
 
   const classes = useStyles();
 
+  const [allChats ] = React.useContext(CTX);  
+  const topics = Object.keys(allChats)
+  console.log(allChats);
+
+  const [activeTopic, changeActiveTopic] = useState(topics[0])
+
   const [textValue, changeTextValue] = useState('');
 
     return (
@@ -47,15 +55,15 @@ export default function Dashboard() {
           Chat App
         </Typography>
         <Typography variant="h5" component="h5" align="center">
-          Topic Placeholder
+          {activeTopic}
         </Typography>
         <div className={classes.flex}>
           <div className={classes.topicsWindow}>
             <List>
               {
-                  ['topic'].map(topic => (
-                    <ListItem key={topic} button>
-                    <ListItemText primary="topic" />
+                  topics.map(topic => (
+                    <ListItem key={topic} button onClick={(e) => changeActiveTopic(e.target.innerText)}>
+                    <ListItemText primary={topic} />
                   </ListItem>
                   ))
               }
@@ -63,7 +71,7 @@ export default function Dashboard() {
           </div>
           <div className={classes.chatWindow}>
                 {
-                    [{from: 'user', msg: 'hello'}].map((chat , i )=> (
+                    allChats[activeTopic].map((chat , i )=> (
                       <div className={classes.flex} key={i}>
                           <Chip label={chat.from} className={classes.Chip}></Chip>
                           <Typography variant='body1'>
