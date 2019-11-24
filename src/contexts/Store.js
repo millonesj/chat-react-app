@@ -60,23 +60,26 @@ const reducer = (state, action) => {
 let socket;
 
 
-
 const sendChatAction = (value) => {
   socket.emit('chat message', value);
 }
 
 
 const Storage = (props)  => {
+  const [allChats, dispatch] = React.useReducer(reducer, initState);
+  const user = 'Jhonny'+ Math.random(100).toFixed(2);
 
   if (!socket) {
     socket = io(':3001');
+    socket.on('chat message', function(msg){
+      dispatch({type:'RECEIVE_MESSAGE',payload:msg});
+    });
   }
 
-  const [allChats] = React.useReducer(reducer, initState);
 
 
   return (
-    <CTX.Provider value={{allChats, sendChatAction}}>
+    <CTX.Provider value={{allChats, sendChatAction, user}}>
       {props.children}
     </CTX.Provider>
   )

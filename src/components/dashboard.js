@@ -41,9 +41,8 @@ export default function Dashboard() {
 
   const classes = useStyles();
 
-  const {allChats, sendChatAction} = React.useContext(CTX);
+  const { allChats, sendChatAction, user } = React.useContext(CTX);
   const topics = Object.keys(allChats)
-  console.log(allChats);
 
   const [activeTopic, changeActiveTopic] = useState(topics[0])
 
@@ -93,7 +92,10 @@ export default function Dashboard() {
           variant="contained"
           color="primary"
           className={classes.button}
-          onClick={() => sendChatAction(textValue)}
+          onClick={() => {
+            sendChatAction({from:user, msg: textValue, topic: activeTopic});
+            changeTextValue('');
+          }}
         >
           Primary
         </Button>
