@@ -59,9 +59,7 @@ const reducer = (state, action) => {
 
 let socket;
 
-if (!socket) {
-  socket = io(':3001');
-}
+
 
 const sendChatAction = (value) => {
   socket.emit('chat message', value);
@@ -69,6 +67,11 @@ const sendChatAction = (value) => {
 
 
 const Storage = (props)  => {
+
+  if (!socket) {
+    socket = io(':3001');
+  }
+
   const [allChats] = React.useReducer(reducer, initState);
 
 
